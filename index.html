@@ -1,72 +1,897 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Portfolio</title>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
-      background: linear-gradient(to right, #00c6ff, #0072ff);
-      color: white;
-      text-align: center;
-    }
-    header {
-      padding: 50px 20px;
-    }
-    header h1 {
-      font-size: 50px;
-      margin: 0;
-    }
-    header p {
-      font-size: 20px;
-    }
-    section {
-      padding: 60px 20px;
-    }
-    .btn {
-      background: white;
-      color: #0072ff;
-      padding: 12px 25px;
-      border-radius: 6px;
-      text-decoration: none;
-      font-weight: bold;
-    }
-    .btn:hover {
-      background: #ddd;
-    }
-    footer {
-      background: rgba(0,0,0,0.3);
-      padding: 20px;
-      margin-top: 50px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="EduAI Helper - Your Smart Study Companion for Math, Physics, Chemistry, Biology, Hindi, and English">
+    <title>EduAI Helper - Your Smart Study Companion</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            flex: 1;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: white;
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .auth-section {
+            position: absolute;
+            top: 0;
+            right: 0;
+            display: flex;
+            gap: 10px;
+        }
+
+        .user-section {
+            position: absolute;
+            top: 0;
+            right: 0;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .auth-btn, .logout-btn {
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        .auth-btn:hover, .logout-btn:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-1px);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3);
+            padding: 8px 16px;
+            border-radius: 20px;
+        }
+
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            width: 90%;
+            max-width: 400px;
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #4a5568;
+            font-weight: 500;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .form-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .form-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(102, 126, 234, 0.3);
+        }
+
+        .main-content {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .history-section {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+            border-left: 4px solid #38a169;
+        }
+
+        .history-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-left: 3px solid #38a169;
+        }
+
+        .history-item:hover {
+            background: #f1f5f9;
+            transform: translateX(5px);
+        }
+
+        .history-question {
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 5px;
+        }
+
+        .history-subject {
+            font-size: 12px;
+            color: #718096;
+            background: #e2e8f0;
+            padding: 2px 8px;
+            border-radius: 12px;
+            display: inline-block;
+        }
+
+        .subject-selector {
+            margin-bottom: 25px;
+        }
+
+        .subject-selector h3 {
+            margin-bottom: 15px;
+            color: #4a5568;
+            font-size: 1.1rem;
+        }
+
+        .subjects {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .subject-btn {
+            padding: 12px 16px;
+            border: 2px solid #e2e8f0;
+            background: #f7fafc;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            font-weight: 500;
+            color: #4a5568;
+        }
+
+        .subject-btn:hover {
+            background: #e2e8f0;
+            transform: translateY(-2px);
+        }
+
+        .subject-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .question-area {
+            margin-bottom: 25px;
+        }
+
+        .question-area h3 {
+            margin-bottom: 15px;
+            color: #4a5568;
+            font-size: 1.1rem;
+        }
+
+        .input-controls {
+            margin-bottom: 15px;
+        }
+
+        .camera-section {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .camera-btn, .gallery-btn {
+            background: linear-gradient(135deg, #4299e1 0%, #3182ce 100%);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .camera-btn:hover, .gallery-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(66, 153, 225, 0.3);
+        }
+
+        .image-preview {
+            position: relative;
+            margin-bottom: 15px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .image-preview img {
+            width: 100%;
+            max-height: 300px;
+            object-fit: contain;
+            background: #f7fafc;
+        }
+
+        .remove-image-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(239, 68, 68, 0.9);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .remove-image-btn:hover {
+            background: rgba(220, 38, 38, 1);
+            transform: scale(1.1);
+        }
+
+        .question-input {
+            width: 100%;
+            min-height: 120px;
+            padding: 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 16px;
+            font-family: inherit;
+            resize: vertical;
+            transition: border-color 0.3s ease;
+        }
+
+        .question-input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .ask-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex: 1;
+            margin-right: 10px;
+        }
+
+        .share-btn {
+            background: linear-gradient(135deg, #38a169 0%, #2f855a 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex: 1;
+        }
+
+        .ask-btn:hover, .share-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .ask-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .answer-section {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+            border-left: 4px solid #667eea;
+        }
+
+        .answer-section h4 {
+            color: #2d3748;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .answer-content {
+            line-height: 1.6;
+            color: #4a5568;
+        }
+
+        .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #667eea;
+            font-weight: 500;
+        }
+
+        .loading::after {
+            content: '';
+            width: 20px;
+            height: 20px;
+            border: 2px solid #e2e8f0;
+            border-top: 2px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-left: 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .examples {
+            background: #edf2f7;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+
+        .examples h3 {
+            color: #2d3748;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .example-item {
+            background: white;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-left: 3px solid #667eea;
+        }
+
+        .example-item:hover {
+            background: #f1f5f9;
+            transform: translateX(5px);
+        }
+
+        .footer {
+            text-align: center;
+            color: white;
+            opacity: 0.8;
+            padding: 20px;
+        }
+
+        .error-message {
+            background: #fed7d7;
+            color: #c53030;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            border-left: 4px solid #e53e3e;
+        }
+
+        .success-message {
+            background: #c6f6d5;
+            color: #2f855a;
+            padding: 15px;
+            border-radius: 8px;
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1001;
+            min-width: 250px;
+            border-left: 4px solid #38a169;
+        }
+
+        .offline-indicator {
+            position: fixed;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #f56565;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            z-index: 1000;
+            display: none;
+        }
+
+        .offline-indicator.online {
+            background: #48bb78;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .main-content {
+                padding: 20px;
+            }
+
+            .subjects {
+                grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+                gap: 8px;
+            }
+
+            .subject-btn {
+                padding: 10px 12px;
+                font-size: 14px;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            .ask-btn {
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+
+            .camera-section {
+                justify-content: center;
+            }
+
+            .auth-section, .user-section {
+                position: relative;
+                margin-bottom: 15px;
+                justify-content: center;
+            }
+        }
+    </style>
 </head>
 <body>
+    <div class="offline-indicator" id="offlineIndicator">
+        📡 Offline Mode
+    </div>
 
-  <header>
-    <h1>👋 Hello, I'm Saud Alam</h1>
-    <p>Welcome to my first website on GitHub Pages 🚀</p>
-    <a href="#about" class="btn">About Me</a>
-  </header>
+    <!-- Auth Modals -->
+    <div class="modal" id="signInModal">
+        <div class="modal-content">
+            <button class="modal-close" id="signInModalClose">&times;</button>
+            <h2 style="margin-bottom: 20px; color: #2d3748;">🔐 Sign In</h2>
+            <form id="signInForm">
+                <div class="form-group">
+                    <label>📧 Email / ईमेल:</label>
+                    <input type="email" class="form-input" id="signInEmail" required>
+                </div>
+                <div class="form-group">
+                    <label>🔒 Password / पासवर्ड:</label>
+                    <input type="password" class="form-input" id="signInPassword" required>
+                </div>
+                <button type="submit" class="form-btn">Sign In</button>
+                <p style="text-align: center; margin-top: 15px; color: #718096;">
+                    Don't have account? <a href="#" id="switchToSignUpLink" style="color: #667eea;">Sign Up</a>
+                </p>
+            </form>
+        </div>
+    </div>
 
-  <section id="about">
-    <h2>About Me</h2>
-    <p>
-      I am learning web development and this is my first site hosted using GitHub Pages.
-    </p>
-  </section>
+    <div class="modal" id="signUpModal">
+        <div class="modal-content">
+            <button class="modal-close" id="signUpModalClose">&times;</button>
+            <h2 style="margin-bottom: 20px; color: #2d3748;">📝 Sign Up</h2>
+            <form id="signUpForm">
+                <div class="form-group">
+                    <label>👤 Name / नाम:</label>
+                    <input type="text" class="form-input" id="signUpName" required>
+                </div>
+                <div class="form-group">
+                    <label>📧 Email / ईमेल:</label>
+                    <input type="email" class="form-input" id="signUpEmail" required>
+                </div>
+                <div class="form-group">
+                    <label>🔒 Password / पासवर्ड:</label>
+                    <input type="password" class="form-input" id="signUpPassword" required minlength="6">
+                </div>
+                <div class="form-group">
+                    <label>🎓 Class / कक्षा:</label>
+                    <select class="form-input" id="signUpClass" required>
+                        <option value="">Select Class</option>
+                        <option value="6">Class 6</option>
+                        <option value="7">Class 7</option>
+                        <option value="8">Class 8</option>
+                        <option value="9">Class 9</option>
+                        <option value="10">Class 10</option>
+                        <option value="11">Class 11</option>
+                        <option value="12">Class 12</option>
+                        <option value="college">College</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <button type="submit" class="form-btn">Sign Up</button>
+                <p style="text-align: center; margin-top: 15px; color: #718096;">
+                    Already have account? <a href="#" id="switchToSignInLink" style="color: #667eea;">Sign In</a>
+                </p>
+            </form>
+        </div>
+    </div>
 
-  <section id="contact">
-    <h2>Contact</h2>
-    <p>Email: <a href="mailto:example@gmail.com" style="color:white;">example@gmail.com</a></p>
-  </section>
+    <div class="container">
+        <div class="header">
+            <div class="auth-section" id="authSection">
+                <button class="auth-btn" id="signInBtn">🔐 Sign In</button>
+                <button class="auth-btn" id="signUpBtn">📝 Sign Up</button>
+            </div>
+            <div class="user-section" id="userSection" style="display: none;">
+                <div class="user-info">
+                    <span id="userName">👤 User</span>
+                    <button class="logout-btn" id="logoutBtn">🚪 Logout</button>
+                </div>
+            </div>
+            <h1>🎓 EduAI Helper</h1>
+            <p>आपका स्मार्ट स्टडी कम्पेनियन | Your Smart Study Companion</p>
+        </div>
 
-  <footer>
-    <p>© 2025 Saud Alam | Made with ❤️ using GitHub Pages</p>
-  </footer>
+        <div class="main-content">
+            <!-- Question History for logged in users -->
+            <div class="history-section" id="historySection" style="display: none;">
+                <h3>📚 आपका इतिहास / Your History:</h3>
+                <div id="historyList">
+                    <!-- History items will be populated here -->
+                </div>
+            </div>
 
-</body>
-</html>
+            <div class="subject-selector">
+                <h3>📚 विषय चुनें / Choose Subject:</h3>
+                <div class="subjects">
+                    <div class="subject-btn active" data-subject="math">गणित / Math</div>
+                    <div class="subject-btn" data-subject="physics">भौतिकी / Physics</div>
+                    <div class="subject-btn" data-subject="chemistry">रसायन / Chemistry</div>
+                    <div class="subject-btn" data-subject="biology">जीव विज्ञान / Biology</div>
+                    <div class="subject-btn" data-subject="hindi">हिंदी / Hindi</div>
+                    <div class="subject-btn" data-subject="english">English</div>
+                    <div class="subject-btn" data-subject="other">Other</div>
+                </div>
+            </div>
+
+            <div class="examples" id="examples">
+                <h3>💡 Example Questions:</h3>
+                <div class="example-item" data-example="Solve: x² + 5x + 6 = 0">
+                    📐 Solve: x² + 5x + 6 = 0
+                </div>
+                <div class="example-item" data-example="Explain photosynthesis process">
+                    🌱 Explain photosynthesis process
+                </div>
+                <div class="example-item" data-example="What is Newton's second law?">
+                    ⚡ What is Newton's second law?
+                </div>
+            </div>
+
+            <div class="question-area">
+                <h3>❓ अपना प्रश्न पूछें / Ask Your Question:</h3>
+                <div class="input-controls">
+                    <div class="camera-section">
+                        <button class="camera-btn" id="cameraBtn">
+                            📷 फोटो लें / Take Photo
+                        </button>
+                        <button class="gallery-btn" id="galleryBtn">
+                            🖼️ Gallery
+                        </button>
+                        <input type="file" id="imageInput" accept="image/*" capture="environment" style="display: none;">
+                        <input type="file" id="galleryInput" accept="image/*" style="display: none;">
+                    </div>
+                </div>
+                <div class="image-preview" id="imagePreview" style="display: none;">
+                    <img id="previewImg" alt="Question Image">
+                    <button class="remove-image-btn" id="removeImageBtn">❌</button>
+                </div>
+                <textarea 
+                    class="question-input" 
+                    id="questionInput" 
+                    placeholder="अपना प्रश्न यहाँ लिखें या ऊपर फोटो लें... / Type your question here or take a photo above..."
+                ></textarea>
+            </div>
+
+            <div class="button-group">
+                <button class="ask-btn" id="askBtn">
+                    🤖 समाधान पाएं / Get Solution
+                </button>
+                <button class="share-btn" id="shareBtn" style="display: none;">
+                    📤 Share Solution
+                </button>
+            </div>
+
+            <div class="answer-section" id="answerSection" style="display: none;">
+                <h4>✨ समाधान / Solution:</h4>
+                <div class="answer-content" id="answerContent"></div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Made with ❤️ for students | विद्यार्थियों के लिए प्रेम से बनाया गया</p>
+        </div>
+    </div>
+
+    <script>
+        let currentUser = null;
+        let currentSubject = 'math';
+        let currentImage = null;
+        let questionHistory = [];
+
+        // Initialize the app
+        function init() {
+            loadUserData();
+            setupEventListeners();
+            updateExamples();
+            checkNetworkStatus();
+        }
+
+        function loadUserData() {
+            const userData = JSON.parse(localStorage.getItem('eduai_user') || 'null');
+            const historyData = JSON.parse(localStorage.getItem('eduai_history') || '[]');
+            
+            if (userData) {
+                currentUser = userData;
+                questionHistory = historyData;
+                showUserSection();
+                loadHistory();
+            } else {
+                showAuthSection();
+            }
+        }
+
+        function showAuthSection() {
+            document.getElementById('authSection').style.display = 'flex';
+            document.getElementById('userSection').style.display = 'none';
+            document.getElementById('historySection').style.display = 'none';
+        }
+
+        function showUserSection() {
+            document.getElementById('authSection').style.display = 'none';
+            document.getElementById('userSection').style.display = 'flex';
+            document.getElementById('historySection').style.display = 'block';
+            document.getElementById('userName').textContent = `👤 ${currentUser.name}`;
+        }
+
+        function setupEventListeners() {
+            // Auth buttons
+            document.getElementById('signInBtn').addEventListener('click', () => openModal('signInModal'));
+            document.getElementById('signUpBtn').addEventListener('click', () => openModal('signUpModal'));
+            document.getElementById('logoutBtn').addEventListener('click', logout);
+
+            // Modal close buttons
+            document.getElementById('signInModalClose').addEventListener('click', () => closeModal('signInModal'));
+            document.getElementById('signUpModalClose').addEventListener('click', () => closeModal('signUpModal'));
+            document.getElementById('switchToSignUpLink').addEventListener('click', switchToSignUp);
+            document.getElementById('switchToSignInLink').addEventListener('click', switchToSignIn);
+
+            // Forms
+            document.getElementById('signInForm').addEventListener('submit', handleSignIn);
+            document.getElementById('signUpForm').addEventListener('submit', handleSignUp);
+
+            // Subject selection
+            document.querySelectorAll('.subject-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    document.querySelectorAll('.subject-btn').forEach(b => b.classList.remove('active'));
+                    e.target.classList.add('active');
+                    currentSubject = e.target.dataset.subject;
+                    updateExamples();
+                });
+            });
+
+            // Example questions
+            document.querySelectorAll('.example-item').forEach(item => {
+                item.addEventListener('click', (e) => {
+                    document.getElementById('questionInput').value = e.target.dataset.example;
+                });
+            });
+
+            // Camera and gallery
+            document.getElementById('cameraBtn').addEventListener('click', () => {
+                document.getElementById('imageInput').click();
+            });
+            
+            document.getElementById('galleryBtn').addEventListener('click', () => {
+                document.getElementById('galleryInput').click();
+            });
+            
+            document.getElementById('imageInput').addEventListener('change', handleImageUpload);
+            document.getElementById('galleryInput').addEventListener('change', handleImageUpload);
+            document.getElementById('removeImageBtn').addEventListener('click', removeImage);
+
+            // Ask button
+            document.getElementById('askBtn').addEventListener('click', askQuestion);
+            document.getElementById('shareBtn').addEventListener('click', shareAnswer);
+
+            // Network status
+            window.addEventListener('online', () => updateNetworkStatus(true));
+            window.addEventListener('offline', () => updateNetworkStatus(false));
+        }
+
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'flex';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        function switchToSignUp(e) {
+            e.preventDefault();
+            closeModal('signInModal');
+            openModal('signUpModal');
+        }
+
+        function switchToSignIn(e) {
+            e.preventDefault();
+            closeModal('signUpModal');
+            openModal('signInModal');
+        }
+
+        async function handleSignIn(e) {
+            e.preventDefault();
+            const email = document.getElementById('signInEmail').value;
+            const password = document.getElementById('signInPassword').value;
+
+            // Simple mock authentication
+            const userData = {
+                id: Date.now(),
+                name: email.split('@')[0],
+                email: email,
+                class: 'Unknown'
+            };
+
+            currentUser = userData;
+            localStorage.setItem('eduai_user', JSON.stringify(userData));
+            
+            showUserSection();
+            closeModal('signInModal');
+            showMessage('Successfully signed in! 🎉', 'success');
+        }
+
+        async function handleSignUp(e) {
+            e.preventDefault();
+            const name = document.getElementById('signUpName').value;
+            const email = document.getElementById('signUpEmail').value;
+            const password = document.getElementById('signUpPassword').value;
+            const userClass = document.getElementById('signUpClass').value;
+
+            const userData = {
+                id: Date.now(),
+                name: name,
+                email: email,
+                class: userClass
+            };
+
+            currentUser = userData;
+            localStorage.setItem('eduai_user', JSON.stringify(userData));
+            
+            showUserSection();
+            closeModal('signUpModal');
+            showMessage('Account created successfully! 🎉', 'success');
+        }
+
+        function logout() {
+            currentUser = null;
+            questionHistory = [];
+            localStorage.removeItem('eduai_user');
+            localStorage.removeItem('eduai_history');
+            showAuthSection();
+            showMessage('Logged out successfully! 👋', 'success');
+        }
+
+        function updateExamples() {
+            const examples = {
+                math: [
+                    { text: "📐 Solve: x² + 5x + 6 = 0", query: "Solve: x² + 5x + 6 = 0" },
+                    { text: "📊 Find derivative of x³ + 2x²", query: "Find derivative of x³ + 2x²" },
+                    { text: "📈 Calculate area under curve y = x²", query: "Calculate area under curve y = x²" }
+                ],
+                physics: [
+                    { text: "⚡ What is Newton's second law?", query: "What is Newton's second law?" },
+                    { text: "🌊 Explain wave-particle duality", query: "Explain wave-particle duality" },
+                    { text: "🔋 Calculate electric field strength", query: "Calculate electric field strength" }
+                ],
+                chemistry: [
+                    { text: "⚗️ Balance: H₂ + O₂ → H₂O", query: "Balance: H₂ + O₂ → H₂O"
