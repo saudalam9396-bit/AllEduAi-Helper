@@ -3,48 +3,70 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Meri Pehli Website</title>
+  <title>My Portfolio</title>
   <style>
     body {
       margin: 0;
       padding: 0;
       font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #4facfe, #00f2fe);
+      background: linear-gradient(to right, #00c6ff, #0072ff);
       color: white;
       text-align: center;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
     }
-    h1 {
-      font-size: 3rem;
-      margin-bottom: 20px;
+    header {
+      padding: 50px 20px;
     }
-    p {
-      font-size: 1.2rem;
+    header h1 {
+      font-size: 50px;
+      margin: 0;
     }
-    button {
-      margin-top: 20px;
-      padding: 10px 20px;
-      font-size: 1rem;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      background: #fff;
-      color: #333;
-      transition: 0.3s;
+    header p {
+      font-size: 20px;
     }
-    button:hover {
-      background: #333;
-      color: #fff;
+    section {
+      padding: 60px 20px;
+    }
+    .btn {
+      background: white;
+      color: #0072ff;
+      padding: 12px 25px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .btn:hover {
+      background: #ddd;
+    }
+    footer {
+      background: rgba(0,0,0,0.3);
+      padding: 20px;
+      margin-top: 50px;
     }
   </style>
 </head>
 <body>
-  <h1>Hello World 🚀</h1>
-  <p>Ye GitHub Pages se bani hai!</p>
-  <button onclick="alert('Shukriya visit karne ke liye! 😍')">Click Me</button>
+
+  <header>
+    <h1>👋 Hello, I'm Saud Alam</h1>
+    <p>Welcome to my first website on GitHub Pages 🚀</p>
+    <a href="#about" class="btn">About Me</a>
+  </header>
+
+  <section id="about">
+    <h2>About Me</h2>
+    <p>
+      I am learning web development and this is my first site hosted using GitHub Pages.
+    </p>
+  </section>
+
+  <section id="contact">
+    <h2>Contact</h2>
+    <p>Email: <a href="mailto:example@gmail.com" style="color:white;">example@gmail.com</a></p>
+  </section>
+
+  <footer>
+    <p>© 2025 Saud Alam | Made with ❤️ using GitHub Pages</p>
+  </footer>
+
 </body>
 </html>
